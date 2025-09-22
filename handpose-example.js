@@ -1,13 +1,12 @@
-let video;
 let handpose;
-let predictions = [];
+let video;
+let hands = [];
 
 function preload() {
-  handpose = ml5.handPose(modelLoaded);
+  handpose = ml5.handPose();
 }
-
 function setup() {
-  createCanvas(innerWidth, innerHeight);
+  createCanvas(640, 480);
   video = createCapture(VIDEO);
   video.size(640, 480);
   video.hide();
@@ -15,26 +14,32 @@ function setup() {
   handpose.detectStart(video, getHandsData);
 }
 
-function getHandsData(results) {
-  predictions = results;
-}
-
 function draw() {
-  background(255, 255, 255);
-  image(video, 0, 0, 640, 480);
+  image(video, 0, 0, innerWidth, height);
 
-  for (let hand of predictions) {
-    const keypoints = hand.keypoints;
-    for (let keypoint of keypoints) {
-      push();
-      noStroke();
-      fill(0, 255, 0);
-      ellipse(keypoint.x, keypoint.y, 10);
-      pop();
-    }
+  //if (hands.length > 0) {
+  //let indexFinger = hands[0].index_finger_tip;
+  //let thumb = hands[0].thumb_tip;
+
+  //fill(120, 148, 19);
+  //ellipse(indexFinger.x, indexFinger.y, 20);
+  //ellipse(thumb.x, thumb.y, 20);
+
+  for (let hand of hands) {
+    let indexFinger = hand.index_finger_tip;
+    let thumb = hand.thumb_tip;
+
+    let centerX = (indexFinger.x + thumb.x) / 2;
+    let centerY = (indexFinger.y + thumb.y) / 2;
+
+    let distance = dist(indexFinger.x, indexFinger.y, thumb.x, thumb.y);
+
+    nostroke();
+    fill(0, 0, 255);
+    ellipse(centerX, centerY, distance);
   }
 }
 
-function modelLoaded() {
-  console.log("Model Loaded!");
+function getHandsData(results) {
+  hands = results;
 }
