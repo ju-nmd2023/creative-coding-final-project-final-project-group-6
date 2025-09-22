@@ -1,45 +1,47 @@
-let handpose;
 let video;
-let hands = [];
+let objectDetector;
+let objects = [];
 
-function preload() {
-  handpose = ml5.handPose();
-}
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(innerWidth, innerHeight);
+  objectDetector = ml5.objectDetector("cocossd", {}, modelLoaded);
+  // objectDetector = ml5.objectDetector("yolo", {}, modelLoaded);
   video = createCapture(VIDEO);
   video.size(640, 480);
   video.hide();
+  video.elt.addEventListener("loadeddata", () => {
+    objectDetector.detect(video, gotDetection);
+  });
+}
 
-  handpose.detectStart(video, getHandsData);
+function gotDetection(err, results) {
+  console.log(results);
+  objects = results;
+  objectDetector.detect(video, gotDetection);
 }
 
 function draw() {
-  image(video, 0, 0, innerWidth, height);
+  background(255, 255, 255);
+  image(video, 0, 0, 640, 480);
 
-  //if (hands.length > 0) {
-  //let indexFinger = hands[0].index_finger_tip;
-  //let thumb = hands[0].thumb_tip;
-
-  //fill(120, 148, 19);
-  //ellipse(indexFinger.x, indexFinger.y, 20);
-  //ellipse(thumb.x, thumb.y, 20);
-
-  for (let hand of hands) {
-    let indexFinger = hand.index_finger_tip;
-    let thumb = hand.thumb_tip;
-
-    let centerX = (indexFinger.x + thumb.x) / 2;
-    let centerY = (indexFinger.y + thumb.y) / 2;
-
-    let distance = dist(indexFinger.x, indexFinger.y, thumb.x, thumb.y);
-
-    nostroke();
-    fill(0, 0, 255);
-    ellipse(centerX, centerY, distance);
+  for (let obj of objects) {
+    if (obj.confidence > 0.6) {
+      push();
+      noFill();
+      strokeWeight(2);
+      stroke(0, 255, 0);
+      rect(obj.x, obj.y, obj.width, obj.height);
+      pop();
+      push();
+      noStroke();
+      fill(255, 255, 255);
+      textSize(30);
+      text(obj.label, obj.x, obj.y);
+      pop();
+    }
   }
 }
 
-function getHandsData(results) {
-  hands = results;
+function modelLoaded() {
+  console.log("Model Loaded!");
 }
