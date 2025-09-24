@@ -125,6 +125,8 @@ function draw() {
     (obj) => obj.label === "person" && obj.confidence > 0.6
   );
 
+  // / Code borrowed from a website - BEGIN
+  //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   if (personDetected) {
     for (let agent of agents) {
       const x = Math.floor(agent.position.x / fieldSize);
@@ -137,6 +139,8 @@ function draw() {
     }
   } else {
     image(video, 0, 0, 640, 480);
+
+    // Code borrowed from a website - END
 
     for (let obj of objects) {
       if (obj.confidence > 0.6) {
