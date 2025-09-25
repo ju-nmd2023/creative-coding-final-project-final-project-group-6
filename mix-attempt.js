@@ -1,5 +1,4 @@
 let video;
-
 let objectDetector;
 let objects = [];
 
