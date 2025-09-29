@@ -100,7 +100,7 @@ class Particle {
     const a = Math.random() * Math.PI * 2;
     const v = 0.2 + Math.random();
     this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
-    this.lifespan = 100 + Math.random() * 100;
+    this.lifespan = 100000 + Math.random() * 100;
   }
 
   update() {
