@@ -1,6 +1,18 @@
+// ---- VIDEO + OBJECT DETECTION -----
 let video;
 let objectDetector;
 let objects = [];
+
+// --- FLOW FIELD + AGENTS --- 
+const fieldSize = 5000;
+const maxCols = Math.ceil(innerWidth / fieldSize);
+const maxRows = Math.ceil(innerHeight / fieldSize);
+const divider = 20;
+let field;
+let agents = [];
+
+// --- PARTICLES ----
+let particles = [];
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -19,6 +31,7 @@ function setup() {
   generateAgents();
 }
 
+// ---- CLASS AGENT -----
 class Agent {
   constructor(x, y, maxSpeed, maxForce) {
     this.position = createVector(x, y);
@@ -80,6 +93,7 @@ class Agent {
   // Code borrowed from a website - END
 }
 
+// ------ CLASS PARTICLES ------
 class Particle {
   constructor(x, y) {
     this.position = createVector(x, y);
@@ -92,7 +106,7 @@ class Particle {
   update() {
     this.lifespan--;
 
-    this.velocity.mult(0.7);
+    this.velocity.mult(0.9);
     this.position.add(this.velocity);
   }
 
@@ -136,13 +150,6 @@ function generateAgents() {
   }
 }
 
-const fieldSize = 5000;
-const maxCols = Math.ceil(innerWidth / fieldSize);
-const maxRows = Math.ceil(innerHeight / fieldSize);
-const divider = 20;
-let field;
-let agents = [];
-
 function generateParticles(x, y) {
   for (let i = 0; i < 1; i++) {
     const px = x + random(-10, 10);
@@ -151,8 +158,6 @@ function generateParticles(x, y) {
     particles.push(particle);
   }
 }
-
-let particles = [];
 
 function mouseClicked() {
   generateParticles(mouseX, mouseY);
