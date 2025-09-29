@@ -3,8 +3,8 @@ let video;
 let objectDetector;
 let objects = [];
 
-// --- FLOW FIELD + AGENTS --- 
-const fieldSize = 5000;
+// --- FLOW FIELD + AGENTS ---
+const fieldSize = 5;
 const maxCols = Math.ceil(innerWidth / fieldSize);
 const maxRows = Math.ceil(innerHeight / fieldSize);
 const divider = 20;
@@ -139,12 +139,12 @@ function generateField() {
 }
 
 function generateAgents() {
-  for (let i = 0; i < 130; i++) {
+  for (let i = 0; i < 530; i++) {
     let agent = new Agent(
       Math.random() * innerWidth,
       Math.random() * innerHeight,
       18,
-      5
+      50
     );
     agents.push(agent);
   }
