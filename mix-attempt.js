@@ -19,7 +19,7 @@ function setup() {
   objectDetector = ml5.objectDetector("cocossd", {}, modelLoaded);
   // objectDetector = ml5.objectDetector("yolo", {}, modelLoaded);
   video = createCapture(VIDEO);
-  video.size(innerWidth, innerHeight);
+  video.size(640, 480);
   video.hide();
   video.elt.addEventListener("loadeddata", () => {
     objectDetector.detect(video, gotDetection);
@@ -101,6 +101,7 @@ class Particle {
     const v = 0.2 + Math.random();
     this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
     this.lifespan = 100000 + Math.random() * 100;
+    this.size = 70;
   }
 
   update() {
@@ -187,19 +188,6 @@ function draw() {
   // / Code borrowed from a website - BEGIN
   //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   if (personDetected) {
-    for (let obj of objects) {
-      if (obj.confidence > 0.6) {
-        push();
-        fill(255, 173, 69);
-        noStroke();
-        rect(obj.x, obj.y, obj.width, obj.height);
-        pop();
-        push();
-        noStroke();
-
-        pop();
-      }
-    }
     for (let agent of agents) {
       const x = Math.floor(agent.position.x / fieldSize);
       const y = Math.floor(agent.position.y / fieldSize);
@@ -218,9 +206,26 @@ function draw() {
       }
     }
   } else {
-    image(video, 0, 0, innerWidth, innerHeight);
+    image(video, 0, 0, 640, 480);
 
     // Code borrowed from a website - END
+
+    for (let obj of objects) {
+      if (obj.confidence > 0.6) {
+        push();
+        noFill();
+        strokeWeight(2);
+        stroke(0, 255, 0);
+        rect(obj.x, obj.y, obj.width, obj.height);
+        pop();
+        push();
+        noStroke();
+        fill(255);
+        textSize(30);
+        text(obj.label, obj.x, obj.y);
+        pop();
+      }
+    }
   }
 }
 
