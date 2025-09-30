@@ -101,6 +101,7 @@ class Particle {
     const v = 0.2 + Math.random();
     this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
     this.lifespan = 100000 + Math.random() * 100;
+    this.size = 50; 
   }
 
   update() {
@@ -113,10 +114,8 @@ class Particle {
   draw() {
     push();
     translate(this.position.x, this.position.y);
-    stroke(50, 20, 255, 150);
-    strokeWeight(random(60));
-    noFill();
-    ellipse(0, 0, 50);
+    fill(255, 0, 0, 150);
+    ellipse(0, 0, this.size, this.size);
     pop();
   }
 
