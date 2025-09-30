@@ -185,6 +185,17 @@ function draw() {
     (obj) => obj.label === "person" && obj.confidence > 0.6
   );
 
+  for (let obj of objects) {
+    if (obj.confidence > 0.6) {
+      push();
+      fill(250, 226, 42);
+      rect(obj.x, obj.y, obj.width, obj.height);
+      pop();
+      push();
+      pop();
+    }
+  }
+
   // / Code borrowed from a website - BEGIN
   //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   if (personDetected) {
