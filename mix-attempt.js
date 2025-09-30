@@ -7,7 +7,7 @@ let objects = [];
 const fieldSize = 5;
 const maxCols = Math.ceil(innerWidth / fieldSize);
 const maxRows = Math.ceil(innerHeight / fieldSize);
-const divider = 20;
+const divider = 10;
 let field;
 let agents = [];
 
@@ -87,7 +87,7 @@ class Agent {
 
     let randomNumber = random(numbers);
 
-    fill(113, 219, 103);
+    fill(34, 104, 62);
     text(randomNumber, this.lastPosition.x - 1, this.lastPosition.y);
   }
   // Code borrowed from a website - END
@@ -139,12 +139,12 @@ function generateField() {
 }
 
 function generateAgents() {
-  for (let i = 0; i < 530; i++) {
+  for (let i = 0; i < 1530; i++) {
     let agent = new Agent(
       Math.random() * innerWidth,
       Math.random() * innerHeight,
-      18,
-      50
+      10,
+      5
     );
     agents.push(agent);
   }
