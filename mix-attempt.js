@@ -102,11 +102,11 @@ class Particle {
     this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
     this.lifespan = 100000 + Math.random() * 100;
     this.size = 70;
+    this.direction = random(["left", "right"]);
   }
 
   update() {
     this.lifespan--;
-
     this.velocity.mult(0.9);
     this.position.add(this.velocity);
   }
@@ -125,6 +125,12 @@ class Particle {
 
     fill(r, g, b + variation, 150);
     ellipse(0, 0, this.size, this.size);
+
+    if (this.direction === "right") {
+      arc(0, 0, this.size, -HALF_PI, HALF_PI, PIE);
+    } else {
+      arc(0, 0, this.size, this.size, HALF_PI, 1.5 * PI, PIE);
+    }
 
     pop();
   }
