@@ -101,11 +101,6 @@ class Particle {
     const v = 0.2 + Math.random();
     this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
     this.lifespan = 100000 + Math.random() * 100;
-<<<<<<< Updated upstream
-    this.size = 70;
-=======
-    this.size = 50;
->>>>>>> Stashed changes
   }
 
   update() {
