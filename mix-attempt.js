@@ -7,7 +7,7 @@ let mySound;
 
 function preload() {
   soundFormats("mp3");
-  clicnk = loadSound("clink.mp3");
+  clink = loadSound("clink.mp3");
 }
 
 // --- FLOW FIELD + AGENTS ---
