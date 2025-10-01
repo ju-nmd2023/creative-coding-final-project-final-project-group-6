@@ -176,6 +176,9 @@ function generateParticles(x, y) {
 }
 
 function mouseClicked() {
+  for (let p of particles) {
+    p.direction = random(["left", "right"]);
+  }
   generateParticles(mouseX, mouseY);
 }
 
