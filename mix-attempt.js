@@ -88,7 +88,10 @@ class Agent {
 
     let randomNumber = random(numbers);
 
-    fill(34, 104, 62);
+    // fill(158, 145, 173);
+
+    fill(68, 49, 95);
+    //background(68, 49, 95);
     text(randomNumber, this.lastPosition.x - 1, this.lastPosition.y);
   }
   // Code borrowed from a website - END
@@ -187,9 +190,11 @@ function gotDetection(err, results) {
 
 function draw() {
   if (millis() > 10000) {
-    background(68, 49, 55);
+    // background(158, 145, 173);
+    background(68, 49, 95);
   } else {
-    background(0);
+    // background(68, 49, 95);
+    background(158, 145, 173);
   }
 
   let personDetected = objects.some(
