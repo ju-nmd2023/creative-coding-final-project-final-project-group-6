@@ -14,6 +14,9 @@ let agents = [];
 // --- PARTICLES ----
 let particles = [];
 
+// --- RECTANGLES ----
+let rectangles = [];
+
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
@@ -144,6 +147,7 @@ class Particle {
   }
 }
 
+// ---- FUNCTIONS -----
 function generateField() {
   let field = [];
   noiseSeed(Math.random() * 100);
@@ -175,6 +179,19 @@ function generateParticles(x, y) {
     const py = y + random(-10, 10);
     const particle = new Particle(px, py);
     particles.push(particle);
+  }
+}
+
+function keyPressed() {
+  if (key === " ") {
+    const newRect = {
+      x: random(width),
+      y: random(height),
+      w: 80,
+      h: 80,
+      color: random([color(254, 58, 150, 120), color(255, 200, 0,120)]),
+    };
+    rectangles.push(newRect);
   }
 }
 
@@ -226,6 +243,12 @@ function draw() {
       agent.update();
       agent.checkBorders();
       agent.draw();
+    }
+
+    for (let r of rectangles) {
+      fill(r.color);
+      noStroke();
+      rect(r.x, r.y, r.w, r.h); 
     }
 
     for (let particle of particles) {
