@@ -3,13 +3,6 @@ let video;
 let objectDetector;
 let objects = [];
 
-let mySound;
-
-function preload() {
-  soundFormats("mp3");
-  clink = loadSound("clink.mp3");
-}
-
 // --- FLOW FIELD + AGENTS ---
 const fieldSize = 5;
 const maxCols = Math.ceil(innerWidth / fieldSize);
@@ -190,7 +183,6 @@ function mouseClicked() {
     p.direction = random(["left", "right"]);
   }
   generateParticles(mouseX, mouseY);
-  clink.play();
 }
 
 function gotDetection(err, results) {
