@@ -18,6 +18,7 @@ let particles = [];
 let rectangles = [];
 
 let player;
+let squareSound;
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
@@ -94,8 +95,17 @@ class Agent {
     let randomNumber = random(numbers);
 
     // fill(158, 145, 173);
-
-    fill(68, 49, 95);
+    if (millis() > 10000) {
+      // background(158, 145, 173);
+      fill(158, 145, 173);
+      //fill(68, 49, 95);
+    } else {
+      // background(68, 49, 95);
+      //fill(158, 145, 173);
+      fill(68, 49, 95);
+    }
+    //background(158, 145, 173);
+    //fill(68, 49, 95);
     //background(68, 49, 95);
     text(randomNumber, this.lastPosition.x - 1, this.lastPosition.y);
   }
@@ -195,6 +205,24 @@ function keyPressed() {
     };
     rectangles.push(newRect);
   }
+
+  Tone.start();
+  if (!squareSound) {
+    squareSound = new Tone.squareSound("Clink.mp3").toDestination();
+    const distortion = new Tone.Distortion(0.2).toDestination();
+    const filter = new Tone.Filter(400, "lowpass").toDestination();
+    //connect a player to the distortion
+    // https://github.com/Tonejs/Tone.js
+    squareSound.connect(distortion);
+    squareSound.connect(filter);
+    Tone.loaded().then(() => {
+      squareSound.start();
+    });
+  } else {
+    // https://tonejs.github.io/docs/14.7.33/Player#stop
+    squareSound.stop();
+    squareSound.start();
+  }
 }
 
 function mouseClicked() {
@@ -289,8 +317,8 @@ function draw() {
       if (obj.confidence > 0.6) {
         push();
         noFill();
-        strokeWeight(2);
-        stroke(0, 255, 0);
+        strokeWeight(1);
+        stroke(119, 53, 120);
         rect(obj.x, obj.y, obj.width, obj.height);
         pop();
         push();
