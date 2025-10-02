@@ -17,6 +17,8 @@ let particles = [];
 // --- RECTANGLES ----
 let rectangles = [];
 
+let player;
+
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
@@ -189,17 +191,34 @@ function keyPressed() {
       y: random(height),
       w: 80,
       h: 80,
-      color: random([color(254, 58, 150, 120), color(255, 200, 0,120)]),
+      color: random([color(254, 58, 150, 120), color(255, 200, 0, 120)]),
     };
     rectangles.push(newRect);
   }
 }
 
 function mouseClicked() {
+  Tone.start();
   for (let p of particles) {
     p.direction = random(["left", "right"]);
   }
   generateParticles(mouseX, mouseY);
+
+  // https://github.com/tonejs/tone.js/
+  if (!player) {
+    player = new Tone.Player("Clink.mp3").toDestination();
+    const distortion = new Tone.Distortion(1).toDestination();
+    //connect a player to the distortion
+    // https://github.com/Tonejs/Tone.js
+    player.connect(distortion);
+    Tone.loaded().then(() => {
+      player.start();
+    });
+  } else {
+    // https://tonejs.github.io/docs/14.7.33/Player#stop
+    player.stop();
+    player.start();
+  }
 }
 
 function gotDetection(err, results) {
@@ -248,7 +267,7 @@ function draw() {
     for (let r of rectangles) {
       fill(r.color);
       noStroke();
-      rect(r.x, r.y, r.w, r.h); 
+      rect(r.x, r.y, r.w, r.h);
     }
 
     for (let particle of particles) {
