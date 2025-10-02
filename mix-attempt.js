@@ -17,7 +17,12 @@ let particles = [];
 // --- RECTANGLES ----
 let rectangles = [];
 
+// --- PRESSING SOUND ---
 let player;
+
+// --- AMBIENCE SOUND ----
+let ambience;
+let ambienceStart;
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
