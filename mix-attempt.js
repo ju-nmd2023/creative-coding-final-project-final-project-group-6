@@ -208,9 +208,11 @@ function mouseClicked() {
   if (!player) {
     player = new Tone.Player("Clink.mp3").toDestination();
     const distortion = new Tone.Distortion(0.2).toDestination();
+    const filter = new Tone.Filter(400, "lowpass").toDestination();
     //connect a player to the distortion
     // https://github.com/Tonejs/Tone.js
     player.connect(distortion);
+    player.connect(filter);
     Tone.loaded().then(() => {
       player.start();
     });
