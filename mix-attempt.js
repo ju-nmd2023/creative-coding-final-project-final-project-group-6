@@ -19,6 +19,7 @@ let rectangles = [];
 
 // --- PRESSING SOUND ---
 let player;
+let squareSound;
 
 // --- AMBIENCE SOUND ----
 let ambience;
@@ -99,8 +100,17 @@ class Agent {
     let randomNumber = random(numbers);
 
     // fill(158, 145, 173);
-
-    fill(68, 49, 95);
+    if (millis() > 10000) {
+      // background(158, 145, 173);
+      fill(158, 145, 173);
+      //fill(68, 49, 95);
+    } else {
+      // background(68, 49, 95);
+      //fill(158, 145, 173);
+      fill(68, 49, 95);
+    }
+    //background(158, 145, 173);
+    //fill(68, 49, 95);
     //background(68, 49, 95);
     text(randomNumber, this.lastPosition.x - 1, this.lastPosition.y);
   }
@@ -190,6 +200,7 @@ function generateParticles(x, y) {
 }
 
 function keyPressed() {
+  Tone.start();
   if (key === " ") {
     const newRect = {
       x: random(width),
@@ -199,6 +210,18 @@ function keyPressed() {
       color: random([color(254, 58, 150, 120), color(255, 200, 0, 120)]),
     };
     rectangles.push(newRect);
+  }
+
+  if (!squareSound) {
+    squareSound = new Tone.Player("drum.mp3").toDestination();
+
+    Tone.loaded().then(() => {
+      squareSound.start();
+    });
+  } else {
+    // https://tonejs.github.io/docs/14.7.33/Player#stop
+    squareSound.stop();
+    squareSound.start();
   }
 }
 
@@ -294,8 +317,8 @@ function draw() {
       if (obj.confidence > 0.6) {
         push();
         noFill();
-        strokeWeight(2);
-        stroke(0, 255, 0);
+        strokeWeight(1);
+        stroke(119, 53, 120);
         rect(obj.x, obj.y, obj.width, obj.height);
         pop();
         push();
