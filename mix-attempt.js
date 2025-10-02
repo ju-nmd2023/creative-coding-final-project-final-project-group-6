@@ -207,7 +207,7 @@ function mouseClicked() {
   // https://github.com/tonejs/tone.js/
   if (!player) {
     player = new Tone.Player("Clink.mp3").toDestination();
-    const distortion = new Tone.Distortion(1).toDestination();
+    const distortion = new Tone.Distortion(0.2).toDestination();
     //connect a player to the distortion
     // https://github.com/Tonejs/Tone.js
     player.connect(distortion);
