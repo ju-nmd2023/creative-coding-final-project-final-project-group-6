@@ -195,6 +195,7 @@ function generateParticles(x, y) {
 }
 
 function keyPressed() {
+  Tone.start();
   if (key === " ") {
     const newRect = {
       x: random(width),
@@ -206,15 +207,9 @@ function keyPressed() {
     rectangles.push(newRect);
   }
 
-  Tone.start();
   if (!squareSound) {
-    squareSound = new Tone.squareSound("Clink.mp3").toDestination();
-    const distortion = new Tone.Distortion(0.2).toDestination();
-    const filter = new Tone.Filter(400, "lowpass").toDestination();
-    //connect a player to the distortion
-    // https://github.com/Tonejs/Tone.js
-    squareSound.connect(distortion);
-    squareSound.connect(filter);
+    squareSound = new Tone.Player("square.mp3").toDestination();
+
     Tone.loaded().then(() => {
       squareSound.start();
     });
