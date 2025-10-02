@@ -208,7 +208,7 @@ function keyPressed() {
   }
 
   if (!squareSound) {
-    squareSound = new Tone.Player("square.mp3").toDestination();
+    squareSound = new Tone.Player("drum.mp3").toDestination();
 
     Tone.loaded().then(() => {
       squareSound.start();
