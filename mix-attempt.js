@@ -23,10 +23,12 @@ let squareSound;
 
 // --- AMBIENCE SOUND ----
 let ambience;
-let ambienceStart;
+let ambienceStart = false;
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
+
+  ambience = new Tone.Player("Childhood_Ambience.mp3").toDestination();
 
   objectDetector = ml5.objectDetector("cocossd", {}, modelLoaded);
   // objectDetector = ml5.objectDetector("yolo", {}, modelLoaded);
@@ -284,6 +286,13 @@ function draw() {
   // / Code borrowed from a website - BEGIN
   //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   if (personDetected) {
+    if (!ambienceStart) {
+      Tone.start().then(() => {
+        ambience.start();
+      });
+      ambienceStart = true;
+    }
+
     for (let agent of agents) {
       const x = Math.floor(agent.position.x / fieldSize);
       const y = Math.floor(agent.position.y / fieldSize);
