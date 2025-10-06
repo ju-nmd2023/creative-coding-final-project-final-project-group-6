@@ -1,4 +1,4 @@
-// ---- VIDEO + OBJECT DETECTION -----
+// ---- VIDEO + OBJECT DETECTION ----
 let video;
 let objectDetector;
 let objects = [];
@@ -25,13 +25,13 @@ let squareSound;
 let ambience;
 let ambienceStart = false;
 
+// --- FUNCTION SETUP ----
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
   ambience = new Tone.Player("Childhood_Ambience.mp3").toDestination();
 
   objectDetector = ml5.objectDetector("cocossd", {}, modelLoaded);
-  // objectDetector = ml5.objectDetector("yolo", {}, modelLoaded);
   video = createCapture(VIDEO);
   video.size(640, 480);
   video.hide();
@@ -95,25 +95,16 @@ class Agent {
 
   // Code borrowed from a website - BEGIN
   //Source: random. (n.d.). https://p5js.org/reference/p5/random/
-
   draw() {
     let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
     let randomNumber = random(numbers);
 
-    // fill(158, 145, 173);
     if (millis() > 10000) {
-      // background(158, 145, 173);
       fill(158, 145, 173);
-      //fill(68, 49, 95);
     } else {
-      // background(68, 49, 95);
-      //fill(158, 145, 173);
       fill(68, 49, 95);
     }
-    //background(158, 145, 173);
-    //fill(68, 49, 95);
-    //background(68, 49, 95);
     text(randomNumber, this.lastPosition.x - 1, this.lastPosition.y);
   }
   // Code borrowed from a website - END
@@ -166,7 +157,7 @@ class Particle {
   }
 }
 
-// ---- FUNCTIONS -----
+// ---- FUNCTIOS FOR GENERATIONS -----
 function generateField() {
   let field = [];
   noiseSeed(Math.random() * 100);
@@ -201,6 +192,7 @@ function generateParticles(x, y) {
   }
 }
 
+// ---- FUNCTIONS FOR SOUND + RECTANGLES -----
 function keyPressed() {
   Tone.start();
   if (key === " ") {
@@ -221,7 +213,6 @@ function keyPressed() {
       squareSound.start();
     });
   } else {
-    // https://tonejs.github.io/docs/14.7.33/Player#stop
     squareSound.stop();
     squareSound.start();
   }
@@ -234,57 +225,42 @@ function mouseClicked() {
   }
   generateParticles(mouseX, mouseY);
 
-  // https://github.com/tonejs/tone.js/
   if (!player) {
     player = new Tone.Player("Clink.mp3").toDestination();
     const distortion = new Tone.Distortion(0.2).toDestination();
     const filter = new Tone.Filter(400, "lowpass").toDestination();
-    //connect a player to the distortion
-    // https://github.com/Tonejs/Tone.js
     player.connect(distortion);
     player.connect(filter);
     Tone.loaded().then(() => {
       player.start();
     });
   } else {
-    // https://tonejs.github.io/docs/14.7.33/Player#stop
     player.stop();
     player.start();
   }
 }
 
+// -- FUNCTION FOR CAMERA DETECTION ----
 function gotDetection(err, results) {
   console.log(results);
   objects = results;
   objectDetector.detect(video, gotDetection);
 }
 
+// ---- FUNCTION DRAW -----
 function draw() {
   if (millis() > 10000) {
-    // background(158, 145, 173);
     background(68, 49, 95);
   } else {
-    // background(68, 49, 95);
     background(158, 145, 173);
   }
 
+  // / Code borrowed from a website - BEGIN
+  //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   let personDetected = objects.some(
     (obj) => obj.label === "person" && obj.confidence > 0.6
   );
 
-  //for (let obj of objects) {
-  // if (obj.confidence > 0.6) {
-  //   push();
-  //fill(250, 226, 42);
-  //rect(obj.x, obj.y, obj.width, obj.height);
-  //pop();
-  //push();
-  //pop();
-  // }
-  //}
-
-  // / Code borrowed from a website - BEGIN
-  //Source: ChatGPT (2025) https://chatgpt.com/share/68d3e3be-f730-800a-8a18-dfeaedc7692a
   if (personDetected) {
     if (!ambienceStart) {
       Tone.start().then(() => {
@@ -292,6 +268,7 @@ function draw() {
       });
       ambienceStart = true;
     }
+    // Code borrowed from a website - END
 
     for (let agent of agents) {
       const x = Math.floor(agent.position.x / fieldSize);
@@ -320,8 +297,6 @@ function draw() {
   } else {
     image(video, 0, 0, 640, 480);
 
-    // Code borrowed from a website - END
-
     for (let obj of objects) {
       if (obj.confidence > 0.6) {
         push();
@@ -339,8 +314,4 @@ function draw() {
       }
     }
   }
-}
-
-function modelLoaded() {
-  console.log("Model Loaded!");
 }
