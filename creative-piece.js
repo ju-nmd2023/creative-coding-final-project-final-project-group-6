@@ -295,7 +295,7 @@ function draw() {
       }
     }
   } else {
-    image(video, 0, 0, 640, 480);
+    image(video, width / 2 - 320, 0, 640, 480);
 
     for (let obj of objects) {
       if (obj.confidence > 0.6) {
@@ -303,13 +303,13 @@ function draw() {
         noFill();
         strokeWeight(1);
         stroke(119, 53, 120);
-        rect(obj.x, obj.y, obj.width, obj.height);
+        rect(obj.x / 2 + 640, obj.y, obj.width, obj.height);
         pop();
         push();
         noStroke();
         fill(255);
         textSize(30);
-        text(obj.label, obj.x, obj.y);
+        text(obj.label, obj.x / 2 + 640, obj.y);
         pop();
       }
     }
