@@ -315,3 +315,8 @@ function draw() {
     }
   }
 }
+
+// --- FUNCTION FOR LOADING ---
+function modelLoaded() {
+  console.log("Model Loaded!");
+}
